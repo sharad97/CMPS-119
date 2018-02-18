@@ -1,6 +1,9 @@
 # CMPS-119
 
-Radial Chart Pie
+Radial Chart with legend
+https://sharad97.github.io/CMPS-119/radial_legend/indexfinal.html
+
+Radial Chart
 https://sharad97.github.io/CMPS-119/RadialChart-pie/indexfinal.html
 
 LineChart

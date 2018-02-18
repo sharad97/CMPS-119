@@ -1,6 +1,6 @@
 function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,segment_labels) {
 
-    var margin = {top: 50, right: 50, bottom: 50, left: 50};
+    var margin = {top: 20, right: 50, bottom: 50, left: 50};
     var width = 1000 - margin.left - margin.right;
 
     var height = width;
@@ -9,12 +9,14 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
     var segmentHeight = (width - margin.top - margin.bottom - 2*innerRadius )/(2*radial_labels.length);
 
     var chart = circularHeatChart()
-    .innerRadius(innerRadius)
-    .segmentHeight(segmentHeight)
+    .segmentHeight(30)
+    .innerRadius(95)
+    .numSegments(24)
     .domain([0,3,6])
     .range(["#fee0d2","#fc9272","#de2d26"])
     .radialLabels(radial_labels)
-    .segmentLabels(segment_labels);
+    .segmentLabels(segment_labels)
+    .margin({top: 0, right: 0, bottom: 0, left: 100});
 
     chart.accessor(function(d) {return d.Consumption;})
 
@@ -100,9 +102,9 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
 
 function circularHeatChart() {
     var margin = {top: 20, right: 50, bottom: 50, left: 20},
-    innerRadius = 20,
+    innerRadius = 95,
     numSegments = 24,
-    segmentHeight = 20,
+    segmentHeight = 30,
     domain = null,
     range = ["white", "red"],
     accessor = function(d) {return d;},
@@ -138,8 +140,34 @@ function circularHeatChart() {
                 .attr("stroke", function(d) {return '#252525';})
                 .attr("fill", function(d) {return color(accessor(d));});
                 
-            // Unique id so that the text path defs are unique - is there a better way to do this?
             var id = d3.selectAll(".circular-heat")[0].length;
+            
+
+            //Radial labels
+            var lsa = 0.01; //Label start angle
+            var labels = svg.append("g")
+                .classed("labels", true)
+                .classed("radial", true)
+                .attr("transform", "translate(" + parseInt(margin.left + offset) + "," + parseInt(margin.top + offset) + ")");
+
+            labels.selectAll("def")
+                .data(radialLabels).enter()
+                .append("def")
+                .append("path")
+                .attr("id", function(d, i) {return "radial-label-path-"+id+"-"+i;})
+                .attr("d", function(d, i) {
+                    var r = innerRadius + ((i + 0.2) * segmentHeight);
+                    return "m" + r * Math.sin(lsa) + " -" + r * Math.cos(lsa) + 
+                            " a" + r + " " + r + " 0 1 1 -1 0";
+                });
+
+            labels.selectAll("text")
+                .data(radialLabels).enter()
+                .append("text")
+                .append("textPath")
+                .attr("xlink:href", function(d, i) {return "#radial-label-path-"+id+"-"+i;})
+                .style("font-size", 0.4 * segmentHeight + 'px')
+                .text(function(d) {return d;});
 
 
             //Segment labels

@@ -12,7 +12,7 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
     .segmentHeight(30)
     .innerRadius(95)
     .numSegments(24)
-    .domain([0,3,6])
+    .domain([0,2,4,6])
     .range(["#fee0d2","#fc9272","#de2d26"])
     .radialLabels(radial_labels)
     .segmentLabels(segment_labels)
@@ -37,12 +37,13 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
     .append('div')
     .attr('class', 'tooltip');
 
+    //order of tooltip
+    tooltip.append('div')
+    .attr('class', 'day');
     tooltip.append('div')
     .attr('class', 'time');
     tooltip.append('div')
     .attr('class', 'consumption');
-    tooltip.append('div')
-    .attr('class', 'day');
     
 
     svg.selectAll("path")
@@ -55,7 +56,7 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
 		
         tooltip.select('.time').html("<b> Time: " + d.Time + "</b>");
         tooltip.select('.day').html("<b> Date: " + d.Day + "</b>");
-        tooltip.select('.consumption').html("<b> Value: " + d.Consumption + "</b>");
+        tooltip.select('.consumption').html("<b> Energy Consume: " + d.Consumption + "</b>");
         tooltip.style('display', 'block');
         tooltip.style('opacity',2);
     })
@@ -76,24 +77,24 @@ function loadCircularHeatMap (dataset, dom_element_to_append_to,radial_labels,se
     })
     .append("desc") //append the current color as a desc element
 	.text(function(d){ 
-			var color = d3.scale.linear().domain([0,3,6]).range(["#fee0d2","#fc9272","#de2d26"]);
+			var color = d3.scale.linear().domain([0,2,4,6]).range(["#fee0d2","#fc9272","#de2d26"]);
 			// how to access a function within reusable charts
 			console.log(color(d.Consumption));
 			return color(d.Consumption);
 		});
     
     var linearV = d3.scale.linear()
-    .domain([0,3,6])
+    .domain([0,2,4,6])
     .range(["#fee0d2","#fc9272","#de2d26"]);
     
     svg.append("g")
         .attr("class", "legendV")
-        .attr("transform", "translate(10,50)");
+        .attr("transform", "translate(10,10)");
     
     var legendV = d3.legend.color()
-    .shapeWidth(20)
-    .cells(10)
-    .labelFormat(d3.format('.0f'))
+    .shapeWidth(30)
+    .cells(13)
+   // .labelFormat(d3.format('.3f'))
     .scale(linearV);
     
     svg.select(".legendV")

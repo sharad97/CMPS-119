@@ -62,7 +62,27 @@ var svg = d3.select("svg");
         .call(legendV);
 
 
+var tooltip = d3.select("body")
+    .append("div")
+    .classed("meteor-tooltip", true)
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden");
 
+/** Formats the HTML for tooltip based on the meteorite data.*/
+var getTooltipHTML = function(d) {
+    var html = '<p>';
+    var Day = d.Day;
+    var Time = d.Time;
+    var Energy  = d.Energy;
+
+    if (Day    !== null) html += "Day:  " +  Day     +  '<br/>';
+    if (Time   !== null) html += "Time:  " +  Time     +  '<br/>';
+    if (Energy !== null) html += "Energy:  " +  Energy    +  '<br/>';
+
+    html += '</p>';
+    return html;
+};
 //functions
 
 
@@ -109,20 +129,10 @@ function updateChart(passedData,radiallabels){
 }
 
 function mouseover(svg,index,innerRadius,numSegments,segmentHeight,passedData){
-		//tooltip
-		var tooltip = svg
-			.append('div')
-			.attr('class', 'tooltip');
-			
-		tooltip.append('div').attr('class', 'time');
-        tooltip.append('div').attr('class', 'energy');
-        tooltip.append('div').attr('class', 'day');
-			
+
     	svg.selectAll("path.segment"+index)
-		.on('mouseover', function (d, i) {
-		// inc segment height of the one being hovered as well as all others of the same date & dec height of all others accordingly
-				
-				var targetIndex = Math.floor(i / numSegments); //the layer you are hovering
+.on("mouseover", function(d, i) {
+            var targetIndex = Math.floor(i / numSegments); //the layer you are hovering
 				var zoomSize = 20; //inner 5px and outer 5px
 				var layerCnt = passedData.length / numSegments; //layer count, number of layers
 				if(data.length < 400){
@@ -162,23 +172,22 @@ function mouseover(svg,index,innerRadius,numSegments,segmentHeight,passedData){
 				function or(d, i) {
 					return getRadius(Math.floor(i / numSegments) + 1);
 				}
-				
-			tooltip.select('.time').html("<b> Time: " + d.Time + "</b>");
-			tooltip.select('.day').html("<b> Date: " + d.Day + "</b>");
-			tooltip.select('.energy').html("<b> Value: " + d.Energy + "</b>");
-			tooltip.style('display', 'block');
-			tooltip.style('opacity', 2);
-		})
-		.on('mousemove', function (d) {
-			tooltip.style('top', (d3.event.layerY + 10) + 'px')
-				.style('left', (d3.event.layerX - 25) + 'px');
-		})
-		.on('mouseout', function (d, i) {
-			
-			tooltip.style('display', 'none');
-			tooltip.style('opacity', 0);
-		
-			var targetIndex = Math.floor(i / numSegments);
+            
+            var tooltipHTML = getTooltipHTML(d);
+            tooltip.html(tooltipHTML);
+            return tooltip.style("visibility", "visible");
+        })
+
+        .on("mousemove", function(d, i) {
+            return tooltip
+                .style("top", (d3.event.pageY-10)+"px")
+                .style("left",(d3.event.pageX+10)+"px");
+        })
+
+        .on("mouseout", function(){
+            return tooltip.style("visibility", "hidden");
+                        
+            var targetIndex = Math.floor(i / numSegments);
 			var zoomSize = 5;
 			var layerCnt = passedData.length / numSegments;
 			d3.selectAll("path.segment"+index)
@@ -197,7 +206,9 @@ function mouseover(svg,index,innerRadius,numSegments,segmentHeight,passedData){
 			function or(d, i) {
 				return getRadius(Math.floor(i / numSegments) + 1);
 			}
-		});
+
+        });
+
 }
 
 //get start and end date dynamically for slider

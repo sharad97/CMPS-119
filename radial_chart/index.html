@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<title>Circular Heat</title>
+      
+    <script src="https://d3js.org/d3.v3.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="lib/jquery-ui.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.13.0/d3-legend.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+      
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Asar" rel="stylesheet">
+	<link href='lib/jquery-ui.min.css' rel='stylesheet' type='text/css'>
+	<link href='lib/jquery-ui.structure.min.css' rel='stylesheet' type='text/css'>
+	<link href='lib/jquery-ui.theme.min.css' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+
+
+  </head>
+  <body>
+	<div id="cont" class="container-fluid text-center">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>SEEDS VISUALIZATION</h1>
+                <p>Energy Consumption Per Hour</p>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class = "col-md-3">
+			</div>
+			<div class = "col-md-6">		
+				<div id="time-range">
+				    <h2><span id="slider-time"></span> to <span id="slider-time2"></span></h2>
+				    
+				    <div class="sliders_step1">
+				        <div id="slider-range"></div>
+				    </div>
+				</div>
+				<div id="chart"></div>	
+			</div>
+			<div class = "col-md-3">
+			</div>
+		</div>
+		<div class="row">
+			<div class = "col-md-3">
+			</div>
+
+			<div class = "col-md-6">
+				<div id="chart2"></div>		
+			</div>
+			
+			<div class = "col-md-3">
+			</div>
+
+		</div>
+	</div>
+      <script src="data.js"></script> 
+	<script src="chart.js"></script>
+      <script src="main.js"></script>
+	
+  </body>
+</html>

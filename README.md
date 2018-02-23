@@ -1,5 +1,7 @@
 # CMPS-119
-
+Radial Chart with slider
+https://sharad97.github.io/CMPS-119/radial_chart/index.html
+ 
 Radial Chart with legend
 https://sharad97.github.io/CMPS-119/radial_legend/indexfinal.html
 

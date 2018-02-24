@@ -49,26 +49,15 @@ d3.circularHeat= function module() {
                 .attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
-           
-           // Create and translate the container group
-        	
-        	
-        	// I need to somehow add an index to the circular heat chart
-        	
+        
         	if(svg.select('g.circular-heat')[0][0] == null){
         		var g = svg.append("g")
                 	.classed("circular-heat", true)
                 	.attr("transform", "translate(" + parseInt(margin.left + offset) + "," + parseInt(margin.top + offset) + ")");
             }
             
-            
-            //  var g = svg.select('g.circular-heat');
-            // Unique id so that the text path defs are unique - is there a better way to do this?
+        
             var id = d3.selectAll(".circular-heat")[0].length-1;
-            //IF I DRAW THE SECOND CHART AND IF I UPDATE THE FIRST CHART, 
-            // THEN THE HOVER ONLY WORKS FOR THE MOST INNER LAYERS
-            // --> for some reason the index increased after we click on data 2, if i use id instead of _index. so now I'm using _index
-
             
             svg.select('g.circular-heat').attr('id','chart'+_index);
             
@@ -111,8 +100,6 @@ d3.circularHeat= function module() {
                 
                 segments.exit().transition().style({opacity: 0}).remove();
 
-				// the second dataset seems to be added to the first and not removed 
-
             //Segment labels
             var segmentLabelOffset = 5;
             var r = innerRadius + Math.ceil(data.length / numSegments) * segmentHeight + segmentLabelOffset;
@@ -121,7 +108,6 @@ d3.circularHeat= function module() {
                 .classed("labels", true)
                 .attr("transform", "translate(" + parseInt(margin.left + offset) + "," + parseInt(margin.top + offset) + ")");
             }
-            
             
             svg.select('g.labels').append("def")
                 .append("path")
